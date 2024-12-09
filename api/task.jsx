@@ -8,7 +8,7 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 import crypto from "crypto";
 
-const client = new DynamoDBClient({ region: east - 2 });
+const client = new DynamoDBClient({ region: "us-east-2" });
 const docClient = DynamoDBDocumentClient.from(client);
 
 export const fetchTasks = async () => {
@@ -17,12 +17,14 @@ export const fetchTasks = async () => {
     ProjectionExpression: "id, #name, completed",
     TableName: "Tasks",
   });
+
   const response = await docClient.send(command);
+
   return response;
 };
 
 export const createTasks = async ({ name, completed }) => {
-  const uuid = crypto.randomUUID;
+  const uuid = crypto.randomUUID();
   const command = new PutCommand({
     TableName: "Tasks",
     Item: {
@@ -31,7 +33,9 @@ export const createTasks = async ({ name, completed }) => {
       completed,
     },
   });
+
   const response = await docClient.send(command);
+
   return response;
 };
 
@@ -44,14 +48,16 @@ export const updateTasks = async ({ id, name, completed }) => {
     ExpressionAttributeNames: {
       "#name": "name",
     },
-    UpdateExpression: "set #name = :n, completed = :c ",
+    UpdateExpression: "set #name = :n, completed = :c",
     ExpressionAttributeValues: {
       ":n": name,
       ":c": completed,
     },
     ReturnValues: "ALL_NEW",
   });
+
   const response = await docClient.send(command);
+
   return response;
 };
 
@@ -64,5 +70,6 @@ export const deleteTasks = async (id) => {
   });
 
   const response = await docClient.send(command);
+
   return response;
 };
