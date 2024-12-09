@@ -12,9 +12,9 @@ if (process.env.DEVELOPMENT) {
   app.use(cors());
 }
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello World!");
+// });
 
 app.get("/task", async (req, res) => {
   try {
