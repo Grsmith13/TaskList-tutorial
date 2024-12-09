@@ -1,22 +1,24 @@
-import { AddTaskForm } from "./components/AddTaskForm";
+import React, { useState, useEffect } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import { AddTaskForm } from "./components/AddTaskForm";
 import { Task } from "./components/Task";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { API_URL } from "./components/utils";
+import { API_URL } from "./utils";
 
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
   },
 });
-function App() {
+
+export default function App() {
   const [tasks, setTasks] = useState([]);
 
   const fetchTasks = async () => {
     try {
-      const { data } = axios.get(API_URL);
+      const { data } = await axios.get(API_URL);
+
       setTasks(data);
     } catch (err) {
       console.log(err);
@@ -37,5 +39,3 @@ function App() {
     </ThemeProvider>
   );
 }
-
-export default App;

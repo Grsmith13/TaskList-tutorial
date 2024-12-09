@@ -1,19 +1,18 @@
 import { Button, Checkbox, Typography } from "@mui/material";
-import React from "react";
-import { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import UpdateTaskForm from "./UpdateTaskForm";
+import React, { useState } from "react";
+import { UpdateTaskForm } from "./UpdateTaskForm";
 import classnames from "classnames";
 import axios from "axios";
-import { API_URL } from "./utils";
+import { API_URL } from "../utils";
 
 export const Task = ({ task, fetchTasks }) => {
   const { id, name, completed } = task;
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isComplete, setIsComplete] = useState(completed);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleUpdateCompletion = async () => {
+  const handleUpdateTaskCompletion = async () => {
     try {
       await axios.put(API_URL, {
         id,
@@ -28,7 +27,7 @@ export const Task = ({ task, fetchTasks }) => {
 
   const handleDeleteTask = async () => {
     try {
-      await axios.delete("${API_URL/${task.id}");
+      await axios.delete(`${API_URL}/${task.id}`);
 
       await fetchTasks();
     } catch (err) {
@@ -38,8 +37,12 @@ export const Task = ({ task, fetchTasks }) => {
 
   return (
     <div className="task">
-      <div className={classnames("Flex", { done: isComplete })}>
-        <Checkbox checked={isComplete} onChange={handleUpdateCompletion} />
+      <div
+        className={classnames("flex", {
+          done: isComplete,
+        })}
+      >
+        <Checkbox checked={isComplete} onChange={handleUpdateTaskCompletion} />
         <Typography variant="h4">{name}</Typography>
       </div>
       <div className="taskButtons">

@@ -1,9 +1,9 @@
-import { Button, Typography } from "@mui/material";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
-import React from "react";
+import { Button, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { useState } from "react";
 import axios from "axios";
+import { API_URL } from "../utils";
 
 export const AddTaskForm = ({ fetchTasks }) => {
   const [newTask, setNewTask] = useState("");
@@ -14,7 +14,9 @@ export const AddTaskForm = ({ fetchTasks }) => {
         name: newTask,
         completed: false,
       });
+
       await fetchTasks();
+
       setNewTask("");
     } catch (err) {
       console.log(err);
@@ -24,7 +26,7 @@ export const AddTaskForm = ({ fetchTasks }) => {
   return (
     <div>
       <Typography align="center" variant="h2" paddingTop={2} paddingBottom={2}>
-        My task list
+        My Task List
       </Typography>
       <div className="addTaskForm">
         <TextField
